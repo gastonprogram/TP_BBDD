@@ -865,30 +865,72 @@ EXEC INGRESO_AGENTES
 
 
 ----VISTAS--------------------------------------------------------------------------------------------------------------------------------
---1 
-CREATE VIEW VISTA_DEPARTAMENTOS_VALOR_MAS_500000 AS
-	SELECT * FROM PROPIEDADES WHERE Valor_usd>500000;
+--1 --  ver propiedades que valgan mas de 500000 
+GO
+CREATE VIEW VISTA_PROPIEDADES_VALOR_MAS_500000 AS
+SELECT 
+    ID_propiedad,
+    Descripcion,
+    Valor_usd,
+    Metros_cuadrados,
+    Cantidad_ambientes,
+    Fecha_contruccion,
+    Tipo,
+    ID_propietario,
+    ID_direccion
+FROM PROPIEDAD
+WHERE Valor_usd > 500000;
+
 
 
 			---Ejecuto---
 
-SELECT * FROM VISTA_DEPARTAMENTOS_VALOR_MAS_500000;
+SELECT ID_propiedad,
+    Descripcion,
+    Valor_usd,
+    Metros_cuadrados,
+    Cantidad_ambientes,
+    Fecha_contruccion,
+    Tipo,
+    ID_propietario,
+    ID_direccion 
+FROM VISTA_PROPIEDADES_VALOR_MAS_500000;
 
 
----2
+---2 --- ver propiedades que valgan mas de 250000
+GO
+CREATE VIEW VISTA_PROPIEDADES_MENORES_250000 AS
+SELECT 
+    ID_propiedad,
+    Descripcion,
+    Valor_usd,
+    Metros_cuadrados,
+    Cantidad_ambientes,
+    Fecha_contruccion,
+    Tipo,
+    ID_propietario,
+    ID_direccion
+FROM PROPIEDAD
+WHERE Valor_usd < 250000;
 
-CREATE VIEW VISTA_DEPTOS_MENORES_250000
-AS
-    Select * from PROPIEDADES WHERE Valor_usd <250000;
 
 			---Ejecuto---
 
-SELECT * FROM VISTA_DEPTOS_MENORES_250000;
+SELECT ID_propiedad,
+    Descripcion,
+    Valor_usd,
+    Metros_cuadrados,
+    Cantidad_ambientes,
+    Fecha_contruccion,
+    Tipo,
+    ID_propietario,
+    ID_direccion 
+FROM VISTA_PROPIEDADES_MENORES_250000;
 
 
 
 ---- vista de informacion relevante de una propiedad
-
+GO
 CREATE VIEW vw_PropiedadesDetalladas AS
 SELECT 
     p.ID_propiedad,
@@ -904,8 +946,16 @@ FROM PROPIEDAD p
 JOIN PROPIETARIO pr ON p.ID_propietario = pr.ID_propietario
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion;
 
------ vista de contratos completos
+---- ejecuto ------
 
+
+
+
+
+
+
+----- vista de contratos completos
+GO
 CREATE VIEW vw_ContratosCompletos AS
 SELECT 
     c.ID_contrato,
@@ -922,8 +972,8 @@ JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
 JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad;
 
 
------ vistas de visitas pendientes
-
+----- vista de visitas pendientes
+GO
 CREATE VIEW vw_VisitasPendientes AS
 SELECT 
     v.ID_visita,
@@ -934,7 +984,101 @@ SELECT
 FROM VISITA v
 JOIN PROPIEDAD p ON v.ID_propiedad = p.ID_propiedad
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
-WHERE v.Estado = 0; -- pendientes
+WHERE v.Estado = 0; -- seleccionar solo las que esten pendientes (estado = 0)
+
+
+
+------ vista de propiedades por ciudad (promedio de precio y ambientes)
+GO
+CREATE OR ALTER VIEW vw_PropiedadesPorCiudad AS
+SELECT 
+    d.Ciudad,
+    COUNT(p.ID_propiedad) AS Cantidad_Propiedades,
+    AVG(p.Valor_usd) AS Precio_Promedio,
+    AVG(p.Cantidad_ambientes) AS Ambientes_Promedio
+FROM PROPIEDAD p
+JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
+GROUP BY d.Ciudad;
+
+------ vista de clientes con mayor cantidad de contratos -------------
+GO
+CREATE OR ALTER VIEW vw_ClientesConMasContratos AS
+SELECT 
+    cl.ID_cliente,
+    cl.Nombre + ' ' + cl.Apellido AS Cliente,
+    COUNT(c.ID_contrato) AS Cantidad_Contratos
+FROM CLIENTE cl
+LEFT JOIN CONTRATO c ON cl.ID_cliente = c.ID_cliente
+GROUP BY cl.ID_cliente, cl.Nombre, cl.Apellido
+ORDER BY Cantidad_Contratos DESC;
+
+
+------------ procedimientos almacenados -----------------------------------------------------------------------------------------------------
+
+
+----contratos con pagos pendientes (cantidad y porcentaje)---
+GO
+CREATE OR ALTER PROCEDURE sp_ContratosConPagosPendientes
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @TotalContratos INT = (SELECT COUNT(*) FROM CONTRATO);
+
+    DECLARE @ContratosPendientes INT = (
+        SELECT COUNT(DISTINCT c.ID_contrato)
+        FROM CONTRATO c
+        JOIN PAGO p ON c.ID_contrato = p.ID_contrato
+        WHERE p.Estado_pago = 0
+    );
+
+    SELECT 
+        @TotalContratos AS Total_Contratos,
+        @ContratosPendientes AS Contratos_Pendientes,
+        CAST(ROUND(CAST(@ContratosPendientes AS FLOAT) * 100 / @TotalContratos, 2) AS DECIMAL(5,2)) AS Porcentaje_Pendientes;
+END;
+
+
+---- calcular los pagos en un rango de fechas --
+GO
+CREATE OR ALTER PROCEDURE sp_TotalRecaudadoPorFecha
+    @FechaInicio DATE = NULL,
+    @FechaFin DATE = NULL
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    -- si son null muestra los datos de el ultimo trimestre
+    IF @FechaInicio IS NULL SET @FechaInicio = DATEADD(MONTH, -3, GETDATE());
+    IF @FechaFin IS NULL SET @FechaFin = GETDATE();
+
+    SELECT
+        SUM(Monto) AS Total_Recaudado
+    FROM PAGO
+    WHERE Estado_pago = 1
+      AND Fecha_pago BETWEEN @FechaInicio AND @FechaFin;
+END;
+
+
+-----el tiempo promedio que pasa entre una visita y un contrato
+GO
+CREATE OR ALTER PROCEDURE sp_TiempoPromedioVisitaContrato
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT 
+        AVG(DATEDIFF(DAY, v.Fecha_visita, c.Fecha)) AS Promedio_Dias_Visita_Contrato
+    FROM VISITA v
+    JOIN CONTRATO c ON v.ID_propiedad = c.ID_propiedad
+    WHERE v.Estado = 1
+      AND c.Fecha >= v.Fecha_visita;
+END;
+
+
+
+
+
 
 
 
@@ -976,26 +1120,36 @@ ORDER BY Cantidad_Contratos DESC;
 
 
 ---TRIGGERS---------------------------------------------------------------------------------------------------------------------------------
-
-CREATE TRIGGER TR_CrearPago_Auto
+GO
+CREATE TRIGGER TR_CompletarPagoAutomaticamente
 ON CONTRATO
 AFTER INSERT
 AS
 BEGIN
     SET NOCOUNT ON;
 
-    INSERT INTO PAGO (Fecha_pago, Monto, Metodo_pago, Descripcion, Estado_pago)
+    INSERT INTO PAGO (
+        Fecha_pago, 
+        Monto, 
+        Metodo_pago, 
+        Descripcion, 
+        Estado_pago, 
+        ID_contrato
+    )
     SELECT 
-        GETDATE(),                      -- Fecha actual como fecha de pago
-        i.Precio_final,                -- Monto desde el contrato
-        'Transferencia',              -- Método por defecto (puedes cambiarlo)
-        CONCAT('Pago inicial para contrato ID: ', i.ID_contrato),  -- Descripción
-        0                              -- Estado: 0 = Pendiente
+        GETDATE(),                            
+        i.Precio_final,                       
+        'Transferencia',                      ------ esto esta por default, no se acepta otro metodo
+        CONCAT('Pago inicial para contrato ID: ', i.ID_contrato),
+        0,                                    ------ se crea en pendiente el pago
+        i.ID_contrato                         
     FROM inserted i;
 END;
 
 
-CREATE TRIGGER TR_Agregar_Fecha_Registro_Cliente
+------ trigger para agregar fecha de registro al cliente si esta se agrego como null
+GO
+CREATE TRIGGER TR_agregarFechaPredeterminadaCliente
 ON CLIENTE
 AFTER INSERT
 AS
@@ -1010,7 +1164,8 @@ BEGIN
 END;
 
 ----- verificar que no se superponga ----------------------------
-CREATE TRIGGER trg_VisitaUnicaPorDia
+GO
+CREATE TRIGGER TR_VisitaUnicaSinRepetir
 ON VISITA
 INSTEAD OF INSERT
 AS
@@ -1058,4 +1213,28 @@ RETURN
     WHERE P.Metros_cuadrados > 0
     GROUP BY D.Barrio
     ORDER BY Precio_Promedio_Metro_Cuadrado DESC
+);
+
+
+GO
+CREATE OR ALTER FUNCTION fn_ContratosPorCliente
+(
+    @ID_cliente INT
+)
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT
+        c.ID_contrato,
+        c.Fecha,
+        c.Forma_pago,
+        c.Precio_final,
+        c.Condiciones,
+        p.Descripcion AS Propiedad,
+        a.Nombre + ' ' + a.Apellido AS Agente
+    FROM CONTRATO c
+    JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad
+    JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
+    WHERE c.ID_cliente = @ID_cliente
 );
