@@ -7,12 +7,12 @@ GO
 
 -- 1. Tablas base
 CREATE TABLE DIRECCION (
-    ID_direccion INT PRIMARY KEY IDENTITY(1,1),
-    Calle VARCHAR(100),
-    Numero VARCHAR(10),
+    ID_direccion INT CONSTRAINT PK_Direccion PRIMARY KEY IDENTITY(1,1),
+    Calle VARCHAR(100) NOT NULL,
+    Numero VARCHAR(10) NOT NULL,
     Barrio VARCHAR(100),
-    Ciudad VARCHAR(100),
-    Provincia VARCHAR(100),
+    Ciudad VARCHAR(100) NOT NULL,
+    Provincia VARCHAR(100) NOT NULL,
     Codigo_postal VARCHAR(20),
     Piso VARCHAR(10),
     Departamento VARCHAR(10),
@@ -21,93 +21,107 @@ CREATE TABLE DIRECCION (
 GO
 
 CREATE TABLE PROPIETARIO (
-    ID_propietario INT PRIMARY KEY IDENTITY(1,1),
-    Nombre VARCHAR(100),
-    Apellido VARCHAR(100),
-    Telefono VARCHAR(100),
+    ID_propietario INT CONSTRAINT PK_Propietario PRIMARY KEY IDENTITY(1,1),
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(100) NOT NULL,
     Fecha_registro DATE,
     Fecha_nacimiento DATE,
-    Estado BIT, 
-    Cuit VARCHAR(100)
+    Estado BIT,
+    Cuit VARCHAR(100) NOT NULL,
+    CONSTRAINT CK_FechaNacimiento_Propietario CHECK (Fecha_nacimiento <= GETDATE()),
+    CONSTRAINT CK_Estado_Propietario CHECK (Estado IN (0,1))
 );
 GO
 
 CREATE TABLE PROPIEDAD (
-    ID_propiedad INT PRIMARY KEY IDENTITY(1,1),
+    ID_propiedad INT CONSTRAINT PK_Propiedad PRIMARY KEY IDENTITY(1,1),
     Descripcion TEXT,
     ID_direccion INT,
     Valor_usd FLOAT,
     Metros_cuadrados INT,
     Cantidad_ambientes INT,
     Fecha_contruccion DATE,
-    Tipo VARCHAR(100),
+    Tipo VARCHAR(100) NOT NULL,
     ID_propietario INT,
-    FOREIGN KEY (ID_direccion) REFERENCES DIRECCION(ID_direccion),
-    FOREIGN KEY (ID_propietario) REFERENCES PROPIETARIO(ID_propietario)
+    CONSTRAINT FK_Propiedad_Direccion FOREIGN KEY (ID_direccion) REFERENCES DIRECCION(ID_direccion),
+    CONSTRAINT FK_Propiedad_Propietario FOREIGN KEY (ID_propietario) REFERENCES PROPIETARIO(ID_propietario),
+    CONSTRAINT CK_Valor_Propiedad CHECK (Valor_usd >= 0),
+    CONSTRAINT CK_Metros_Propiedad CHECK (Metros_cuadrados > 0),
+    CONSTRAINT CK_Ambientes_Propiedad CHECK (Cantidad_ambientes > 0)
 );
 GO
 
 CREATE TABLE CLIENTE (
-    ID_cliente INT PRIMARY KEY IDENTITY(1,1),
-    DNI VARCHAR(100),
-    Nombre VARCHAR(100),
-    Apellido VARCHAR(100),
+    ID_cliente INT CONSTRAINT PK_Cliente PRIMARY KEY IDENTITY(1,1),
+    DNI VARCHAR(100) NOT NULL,
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido VARCHAR(100) NOT NULL,
     Estado BIT,
     Fecha_nacimiento DATE,
     Fecha_registro DATE,
-    Telefono VARCHAR(100)
+    Telefono VARCHAR(100) NOT NULL,
+    CONSTRAINT CK_FechaNacimiento_Cliente CHECK (Fecha_nacimiento <= GETDATE()),
+    CONSTRAINT CK_Estado_Cliente CHECK (Estado IN (0,1))
 );
 GO
 
-CREATE TABLE AGENTES_INMOBILIARIO (
-    ID_agente INT PRIMARY KEY IDENTITY(1,1),
-    DNI VARCHAR(100),
-    Nombre VARCHAR(100),
-    Apellido VARCHAR(100),
-    Telefono VARCHAR(100),
+CREATE TABLE AGENTE_INMOBILIARIO (
+    ID_agente INT CONSTRAINT PK_Agente PRIMARY KEY IDENTITY(1,1),
+    DNI VARCHAR(100) NOT NULL,
+    Nombre VARCHAR(100) NOT NULL,
+    Apellido VARCHAR(100) NOT NULL,
+    Telefono VARCHAR(100) NOT NULL,
     Comision VARCHAR(100),
     Fecha_nacimiento DATE,
     Fecha_registro DATE,
-    Estado BIT
+    Estado BIT,
+    CONSTRAINT CK_FechaNacimiento_Agente CHECK (Fecha_nacimiento <= GETDATE()),
+    CONSTRAINT CK_Estado_Agente CHECK (Estado IN (0,1))
 );
+GO
 
--- CONTRATO con FK a propiedad, cliente y agente
 CREATE TABLE CONTRATO (
-    ID_contrato INT PRIMARY KEY IDENTITY(1,1),
+    ID_contrato INT CONSTRAINT PK_Contrato PRIMARY KEY IDENTITY(1,1),
     Condiciones TEXT,
     Precio_final FLOAT,
-    Fecha DATE,
-    Forma_pago VARCHAR(100),
+    Fecha DATE NOT NULL,
+    Forma_pago VARCHAR(100) NOT NULL,
     ID_propiedad INT,
     ID_cliente INT,
     ID_agente INT,
-    FOREIGN KEY (ID_propiedad) REFERENCES PROPIEDAD(ID_propiedad),
-    FOREIGN KEY (ID_cliente) REFERENCES CLIENTE(ID_cliente),
-    FOREIGN KEY (ID_agente) REFERENCES AGENTES_INMOBILIARIO(ID_agente)
+    CONSTRAINT FK_Contrato_Propiedad FOREIGN KEY (ID_propiedad) REFERENCES PROPIEDAD(ID_propiedad),
+    CONSTRAINT FK_Contrato_Cliente FOREIGN KEY (ID_cliente) REFERENCES CLIENTE(ID_cliente),
+    CONSTRAINT FK_Contrato_Agente FOREIGN KEY (ID_agente) REFERENCES AGENTE_INMOBILIARIO(ID_agente),
+    CONSTRAINT CK_Precio_Contrato CHECK (Precio_final >= 0)
 );
 GO
 
 CREATE TABLE PAGO (
-    ID_pago INT PRIMARY KEY IDENTITY(1,1),
+    ID_pago INT CONSTRAINT PK_Pago PRIMARY KEY IDENTITY(1,1),
     Fecha_pago DATE,
     Monto FLOAT,
-    Metodo_pago VARCHAR(100),
+    Metodo_pago VARCHAR(100) NOT NULL,
     Descripcion VARCHAR(200),
-    Estado_pago BIT,  -- 1: pagado, 0: pendiente
+    Estado_pago BIT, -------- 0: pendiente 1: ya realizado 
     ID_contrato INT,
-    FOREIGN KEY (ID_contrato) REFERENCES CONTRATO(ID_contrato)
+    CONSTRAINT FK_Pago_Contrato FOREIGN KEY (ID_contrato) REFERENCES CONTRATO(ID_contrato),
+    CONSTRAINT CK_Monto_Pago CHECK (Monto >= 0),
+    CONSTRAINT CK_Estado_Pago CHECK (Estado_pago IN (0,1))
 );
 GO
 
 CREATE TABLE VISITA (
-    ID_visita INT PRIMARY KEY IDENTITY(1,1),
-    Fecha_visita DATE,
+    ID_visita INT CONSTRAINT PK_Visita PRIMARY KEY IDENTITY(1,1),
+    Fecha_visita DATE NOT NULL,
     Comentarios TEXT,
-    Estado BIT,  -- 1: realizada, 0: pendiente
+    Estado BIT,   ----- 0: pendiente 1: ya hecha
     ID_propiedad INT,
-    FOREIGN KEY (ID_propiedad) REFERENCES PROPIEDAD(ID_propiedad)
+    CONSTRAINT FK_Visita_Propiedad FOREIGN KEY (ID_propiedad) REFERENCES PROPIEDAD(ID_propiedad),
+    CONSTRAINT CK_Estado_Visita CHECK (Estado IN (0,1))
 );
 GO
+
 
 
 -----PROCEDIMIENTOS ALMACENADO DE INGRESO DE DATOS--------------------------------------------------------------------------------------------
@@ -233,7 +247,7 @@ CREATE PROCEDURE sp_InsertarAgente
 AS
 BEGIN
     BEGIN TRY
-        INSERT INTO AGENTES_INMOBILIARIO (DNI, Nombre, Apellido, Telefono, Comision, Fecha_nacimiento, Fecha_registro, Estado)
+        INSERT INTO AGENTE_INMOBILIARIO (DNI, Nombre, Apellido, Telefono, Comision, Fecha_nacimiento, Fecha_registro, Estado)
         VALUES (@DNI, @Nombre, @Apellido, @Telefono, @Comision, @Fecha_nacimiento, @Fecha_registro, @Estado);
 
         PRINT 'Agente insertado exitosamente.';
@@ -283,7 +297,7 @@ CREATE PROCEDURE sp_InsertarPago
 AS
 BEGIN
     BEGIN TRY
-        INSERT INTO PAGOS (Fecha_pago, Monto, Metodo_pago, Descripcion, Estado_pago, ID_contrato)
+        INSERT INTO PAGO (Fecha_pago, Monto, Metodo_pago, Descripcion, Estado_pago, ID_contrato)
         VALUES (@Fecha_pago, @Monto, @Metodo_pago, @Descripcion, @Estado_pago, @ID_contrato);
 
         PRINT 'Pago insertado exitosamente.';
@@ -389,7 +403,7 @@ CREATE PROCEDURE sp_ListarAgentes
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM AGENTES_INMOBILIARIO;
+        SELECT * FROM AGENTE_INMOBILIARIO;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar agentes inmobiliarios.';
@@ -448,7 +462,7 @@ GO
 
 
 
------ PROCEDIMIENTOS DE EDICION DE DATOS -------------------------
+------------------------------------ PROCEDIMIENTOS DE EDICION DE DATOS ------------------------------------------------------------
 
 
 -- direccion
@@ -608,7 +622,7 @@ CREATE PROCEDURE sp_EditarAgente
 AS
 BEGIN
     BEGIN TRY
-        UPDATE AGENTES_INMOBILIARIO
+        UPDATE AGENTE_INMOBILIARIO
         SET DNI = @DNI,
             Nombre = @Nombre,
             Apellido = @Apellido,
@@ -816,7 +830,7 @@ CREATE PROCEDURE sp_EliminarAgente
 AS
 BEGIN
     BEGIN TRY
-        DELETE FROM AGENTES_INMOBILIARIO
+        DELETE FROM AGENTE_INMOBILIARIO
         WHERE ID_agente = @ID_agente;
 
         PRINT 'Agente eliminado exitosamente.';
@@ -1088,7 +1102,7 @@ SELECT
     p.Descripcion AS Propiedad
 FROM CONTRATO c
 JOIN CLIENTE cl ON c.ID_cliente = cl.ID_cliente
-JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
+JOIN AGENTE_INMOBILIARIO a ON c.ID_agente = a.ID_agente
 JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad;
 GO
 
@@ -1276,7 +1290,7 @@ SELECT * FROM VISITAS WHERE Fecha_visita >= DATEADD(DAY, -7, GETDATE());
 
 SELECT ID_CLIENTE, Nombre, Apellido, Fecha_registro FROM CLIENTE WHERE Fecha_registro >= DATEADD(MONTH, -1, GETDATE());
 
-SELECT ID_agente, Nombre, Apellido, Comision FROM AGENTES_INMOBILIARIOS WHERE Estado = 1 AND Comision IS NOT NULL;
+SELECT ID_agente, Nombre, Apellido, Comision FROM AGENTE_INMOBILIARIOS WHERE Estado = 1 AND Comision IS NOT NULL;
 
 SELECT ID_propietario, Nombre, Apellido, Cuit FROM PROPIETARIOS WHERE Cuit IS NOT NULL AND Estado = 1;
 
@@ -1410,6 +1424,6 @@ RETURN
         a.Nombre + ' ' + a.Apellido AS Agente
     FROM CONTRATO c
     JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad
-    JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
+    JOIN AGENTE_INMOBILIARIO a ON c.ID_agente = a.ID_agente
     WHERE c.ID_cliente = @ID_cliente
 );
