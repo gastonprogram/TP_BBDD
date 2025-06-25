@@ -323,7 +323,150 @@ END
 
 
 
------ procedimientos de edicion -------------------------
+
+----------------------------------- PROCEDIMIENTOS DE LECTURA DE DATOS -----------------------------------------------------------------------
+
+----direccion-------
+
+GO
+CREATE PROCEDURE sp_ListarDirecciones
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM DIRECCION;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar direcciones.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+----- propietarios ---
+
+GO
+CREATE PROCEDURE sp_ListarPropietarios
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM PROPIETARIO;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar propietarios.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+----- propiedad -----
+GO
+CREATE PROCEDURE sp_ListarPropiedades
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM PROPIEDAD;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar propiedades.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+------ cliente -----
+
+GO
+CREATE PROCEDURE sp_ListarClientes
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM CLIENTE;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar clientes.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+-----agentes -----
+GO
+CREATE PROCEDURE sp_ListarAgentes
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM AGENTES_INMOBILIARIO;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar agentes inmobiliarios.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+
+-----contrato -------
+GO
+CREATE PROCEDURE sp_ListarContratos
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM CONTRATO;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar contratos.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+------ pago -----
+GO
+CREATE PROCEDURE sp_ListarPagos
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM PAGO;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar pagos.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+
+----- visita -----
+GO
+CREATE PROCEDURE sp_ListarVisitas
+AS
+BEGIN
+    BEGIN TRY
+        SELECT * FROM VISITA;
+    END TRY
+    BEGIN CATCH
+        PRINT 'Error al listar visitas.';
+        PRINT 'Mensaje: ' + ERROR_MESSAGE();
+    END CATCH
+END
+
+
+
+
+
+
+
+
+
+
+
+
+----- procedimientos de edicion de datos-------------------------
 
 
 -- direccion
@@ -864,7 +1007,7 @@ EXEC INGRESO_AGENTES
     @ID_contrato = 1;
 
 
-----VISTAS--------------------------------------------------------------------------------------------------------------------------------
+----VISTAS----------------------------------------------------------------------------------------------------------------------------------------------
 --1 --  ver propiedades que valgan mas de 500000 
 GO
 CREATE VIEW VISTA_PROPIEDADES_VALOR_MAS_500000 AS
@@ -895,6 +1038,8 @@ SELECT ID_propiedad,
     ID_propietario,
     ID_direccion 
 FROM VISTA_PROPIEDADES_VALOR_MAS_500000;
+
+
 
 
 ---2 --- ver propiedades que valgan mas de 250000
@@ -948,7 +1093,15 @@ JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion;
 
 ---- ejecuto ------
 
-
+SELECT ID_propiedad,
+	Descripcion,
+	Valor_usd,
+	Metros_cuadrados,
+	Cantidad_ambientes,
+	Fecha_contruccion,
+	Tipo, Propietario,
+	Direccion
+FROM vw_PropiedadesDetalladas;
 
 
 
@@ -971,6 +1124,18 @@ JOIN CLIENTE cl ON c.ID_cliente = cl.ID_cliente
 JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
 JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad;
 
+---- ejecuto -----
+
+SELECT ID_contrato,
+	Fecha,
+	Forma_pago,
+	Precio_final,
+	Condiciones,
+	Cliente,
+	Agente,
+	Propiedad
+FROM vw_ContratosCompletos;
+
 
 ----- vista de visitas pendientes
 GO
@@ -988,6 +1153,18 @@ WHERE v.Estado = 0; -- seleccionar solo las que esten pendientes (estado = 0)
 
 
 
+---- ejecuto -----
+
+SELECT ID_contrato,
+	Fecha,
+	Forma_pago,
+	Precio_final,
+	Condiciones,
+	Cliente,
+	Agente,
+	Propiedad
+FROM vw_ContratosCompletos;
+
 ------ vista de propiedades por ciudad (promedio de precio y ambientes)
 GO
 CREATE OR ALTER VIEW vw_PropiedadesPorCiudad AS
@@ -999,6 +1176,16 @@ SELECT
 FROM PROPIEDAD p
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
 GROUP BY d.Ciudad;
+
+
+--- ejecuto ----
+
+SELECT
+	Ciudad,
+	Cantidad_Propiedades,
+	Precio_Promedio,
+	Ambientes_promedio
+FROM vw_PropiedadesPorCiudad;
 
 ------ vista de clientes con mayor cantidad de contratos -------------
 GO
@@ -1013,7 +1200,17 @@ GROUP BY cl.ID_cliente, cl.Nombre, cl.Apellido
 ORDER BY Cantidad_Contratos DESC;
 
 
------------- procedimientos almacenados -----------------------------------------------------------------------------------------------------
+
+---- ejecuto ----
+
+SELECT
+	ID_cliente,
+	Cliente,
+	Cantidad_Contratos
+FROM vw_ClientesConMasContratos;
+
+
+------------ procedimientos almacenados con valor para el sistema -----------------------------------------------------------------------------------------------------
 
 
 ----contratos con pagos pendientes (cantidad y porcentaje)---
@@ -1039,6 +1236,10 @@ BEGIN
 END;
 
 
+---- ejecuto ----
+
+EXEC sp_ContratosConPagosPendientes;
+
 ---- calcular los pagos en un rango de fechas --
 GO
 CREATE OR ALTER PROCEDURE sp_TotalRecaudadoPorFecha
@@ -1060,6 +1261,11 @@ BEGIN
 END;
 
 
+-----ejecuto -----
+
+
+EXEC sp_TotalRecaudadoPorFecha;
+
 -----el tiempo promedio que pasa entre una visita y un contrato
 GO
 CREATE OR ALTER PROCEDURE sp_TiempoPromedioVisitaContrato
@@ -1076,6 +1282,10 @@ BEGIN
 END;
 
 
+-----ejecuto -----
+
+
+EXEC sp_TiempoPromedioVisitaContrato;
 
 
 
@@ -1198,7 +1408,7 @@ SELECT MAX(Valor_usd) FROM PROPIEDADES;
 
 
 
-----FUNCION -------------------------------------------------------------------------------------
+----FUNCIONES -------------------------------------------------------------------------------------
 GO
 CREATE FUNCTION fn_BarriosMayorPrecioMetroCuadrado()
 RETURNS TABLE
