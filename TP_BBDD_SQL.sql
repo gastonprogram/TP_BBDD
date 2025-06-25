@@ -18,6 +18,7 @@ CREATE TABLE DIRECCION (
     Departamento VARCHAR(10),
     Observaciones TEXT
 );
+GO
 
 CREATE TABLE PROPIETARIO (
     ID_propietario INT PRIMARY KEY IDENTITY(1,1),
@@ -29,6 +30,7 @@ CREATE TABLE PROPIETARIO (
     Estado BIT, 
     Cuit VARCHAR(100)
 );
+GO
 
 CREATE TABLE PROPIEDAD (
     ID_propiedad INT PRIMARY KEY IDENTITY(1,1),
@@ -43,6 +45,7 @@ CREATE TABLE PROPIEDAD (
     FOREIGN KEY (ID_direccion) REFERENCES DIRECCION(ID_direccion),
     FOREIGN KEY (ID_propietario) REFERENCES PROPIETARIO(ID_propietario)
 );
+GO
 
 CREATE TABLE CLIENTE (
     ID_cliente INT PRIMARY KEY IDENTITY(1,1),
@@ -54,6 +57,7 @@ CREATE TABLE CLIENTE (
     Fecha_registro DATE,
     Telefono VARCHAR(100)
 );
+GO
 
 CREATE TABLE AGENTES_INMOBILIARIO (
     ID_agente INT PRIMARY KEY IDENTITY(1,1),
@@ -81,6 +85,7 @@ CREATE TABLE CONTRATO (
     FOREIGN KEY (ID_cliente) REFERENCES CLIENTE(ID_cliente),
     FOREIGN KEY (ID_agente) REFERENCES AGENTES_INMOBILIARIO(ID_agente)
 );
+GO
 
 CREATE TABLE PAGO (
     ID_pago INT PRIMARY KEY IDENTITY(1,1),
@@ -92,7 +97,7 @@ CREATE TABLE PAGO (
     ID_contrato INT,
     FOREIGN KEY (ID_contrato) REFERENCES CONTRATO(ID_contrato)
 );
-
+GO
 
 CREATE TABLE VISITA (
     ID_visita INT PRIMARY KEY IDENTITY(1,1),
@@ -102,12 +107,12 @@ CREATE TABLE VISITA (
     ID_propiedad INT,
     FOREIGN KEY (ID_propiedad) REFERENCES PROPIEDAD(ID_propiedad)
 );
+GO
 
 
 -----PROCEDIMIENTOS ALMACENADO DE INGRESO DE DATOS--------------------------------------------------------------------------------------------
 
 -- direccion
-GO
 CREATE PROCEDURE sp_InsertarDireccion
     @Calle VARCHAR(100),
     @Numero VARCHAR(10),
@@ -132,12 +137,11 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 --propietario
 
 
-GO
 CREATE PROCEDURE sp_InsertarPropietario
     @Nombre VARCHAR(100),
     @Apellido VARCHAR(100),
@@ -160,10 +164,9 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 -- propiedad
 
-GO
 CREATE PROCEDURE sp_InsertarPropiedad
     @Descripcion TEXT,
     @ID_direccion INT,
@@ -187,10 +190,9 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 -- cliente
 
-GO
 CREATE PROCEDURE sp_InsertarCliente
     @DNI VARCHAR(100),
     @Nombre VARCHAR(100),
@@ -213,13 +215,12 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 
 -- agente
 
 
-GO
 CREATE PROCEDURE sp_InsertarAgente
     @DNI VARCHAR(100),
     @Nombre VARCHAR(100),
@@ -243,11 +244,10 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 -- contrato
 
 
-GO
 CREATE PROCEDURE sp_InsertarContrato
     @Condiciones TEXT,
     @Precio_final FLOAT,
@@ -270,10 +270,9 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 -- pagos
 
-GO
 CREATE PROCEDURE sp_InsertarPago
     @Fecha_pago DATE,
     @Monto FLOAT,
@@ -295,12 +294,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- visita
 
 
-GO
 CREATE PROCEDURE sp_InsertarVisita
     @Fecha_visita DATE,
     @Comentarios TEXT,
@@ -320,15 +318,13 @@ BEGIN
         PRINT 'Código de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
-
+GO
 
 
 ----------------------------------- PROCEDIMIENTOS DE LECTURA DE DATOS -----------------------------------------------------------------------
 
 ----direccion-------
 
-GO
 CREATE PROCEDURE sp_ListarDirecciones
 AS
 BEGIN
@@ -340,11 +336,10 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 ----- propietarios ---
 
-GO
 CREATE PROCEDURE sp_ListarPropietarios
 AS
 BEGIN
@@ -356,11 +351,10 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 
 ----- propiedad -----
-GO
 CREATE PROCEDURE sp_ListarPropiedades
 AS
 BEGIN
@@ -372,11 +366,10 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 ------ cliente -----
 
-GO
 CREATE PROCEDURE sp_ListarClientes
 AS
 BEGIN
@@ -388,11 +381,10 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 
 -----agentes -----
-GO
 CREATE PROCEDURE sp_ListarAgentes
 AS
 BEGIN
@@ -404,12 +396,11 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 
 
 -----contrato -------
-GO
 CREATE PROCEDURE sp_ListarContratos
 AS
 BEGIN
@@ -421,11 +412,10 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 
 ------ pago -----
-GO
 CREATE PROCEDURE sp_ListarPagos
 AS
 BEGIN
@@ -437,12 +427,11 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
-
+GO
 
 
 
 ----- visita -----
-GO
 CREATE PROCEDURE sp_ListarVisitas
 AS
 BEGIN
@@ -454,24 +443,16 @@ BEGIN
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
     END CATCH
 END
+GO
 
 
 
 
-
-
-
-
-
-
-
-
------ procedimientos de edicion de datos-------------------------
+----- PROCEDIMIENTOS DE EDICION DE DATOS -------------------------
 
 
 -- direccion
 
-GO
 CREATE PROCEDURE sp_EditarDireccion
     @ID_direccion INT,
     @Calle VARCHAR(100),
@@ -506,11 +487,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- propietario
 
-GO
 CREATE PROCEDURE sp_EditarPropietario
     @ID_propietario INT,
     @Nombre VARCHAR(100),
@@ -541,11 +521,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- propiedad
 
-GO
 CREATE PROCEDURE sp_EditarPropiedad
     @ID_propiedad INT,
     @Descripcion TEXT,
@@ -578,10 +557,9 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 -- cliente
 
-GO
 CREATE PROCEDURE sp_EditarCliente
     @ID_cliente INT,
     @DNI VARCHAR(100),
@@ -612,12 +590,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 
 -- agente
 
-GO
 CREATE PROCEDURE sp_EditarAgente
     @ID_agente INT,
     @DNI VARCHAR(100),
@@ -650,12 +627,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- contrato
 
 
-GO
 CREATE PROCEDURE sp_EditarContrato
     @ID_contrato INT,
     @Condiciones TEXT,
@@ -686,12 +662,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 
 -- pago
 
-GO
 CREATE PROCEDURE sp_EditarPago
     @ID_pago INT,
     @Fecha_pago DATE,
@@ -720,12 +695,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 
 -- visita
 
-GO
 CREATE PROCEDURE sp_EditarVisita
     @ID_visita INT,
     @Fecha_visita DATE,
@@ -750,13 +724,12 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
+GO
 
-
---------------------------   Procedimientos de eliminacion    ------------------------------------------------------------------------------------
+--------------------------   PROCEDIMIENTOS DE ELIMINACION DE DATOS   ------------------------------------------------------------------------------------
 
 -- direccion
 
-GO
 CREATE PROCEDURE sp_EliminarDireccion
     @ID_direccion INT
 AS
@@ -773,11 +746,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- propietario
 
-GO
 CREATE PROCEDURE sp_EliminarPropietario
     @ID_propietario INT
 AS
@@ -794,12 +766,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- propiedad
 
 
-GO
 CREATE PROCEDURE sp_EliminarPropiedad
     @ID_propiedad INT
 AS
@@ -816,11 +787,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- cliente
 
-GO
 CREATE PROCEDURE sp_EliminarCliente
     @ID_cliente INT
 AS
@@ -837,11 +807,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- agente
 
-GO
 CREATE PROCEDURE sp_EliminarAgente
     @ID_agente INT
 AS
@@ -858,11 +827,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- contrato
 
-GO
 CREATE PROCEDURE sp_EliminarContrato
     @ID_contrato INT
 AS
@@ -879,11 +847,10 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- pago
 
-GO
 CREATE PROCEDURE sp_EliminarPago
     @ID_pago INT
 AS
@@ -900,12 +867,11 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 -- visita
 
 
-GO
 CREATE PROCEDURE sp_EliminarVisita
     @ID_visita INT
 AS
@@ -922,7 +888,7 @@ BEGIN
         PRINT 'Código: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
-
+GO
 
 
 
@@ -1007,9 +973,11 @@ EXEC INGRESO_AGENTES
     @ID_contrato = 1;
 
 
+
+
+GO
 ----VISTAS----------------------------------------------------------------------------------------------------------------------------------------------
 --1 --  ver propiedades que valgan mas de 500000 
-GO
 CREATE VIEW VISTA_PROPIEDADES_VALOR_MAS_500000 AS
 SELECT 
     ID_propiedad,
@@ -1023,7 +991,7 @@ SELECT
     ID_direccion
 FROM PROPIEDAD
 WHERE Valor_usd > 500000;
-
+GO
 
 
 			---Ejecuto---
@@ -1038,12 +1006,11 @@ SELECT ID_propiedad,
     ID_propietario,
     ID_direccion 
 FROM VISTA_PROPIEDADES_VALOR_MAS_500000;
-
+GO
 
 
 
 ---2 --- ver propiedades que valgan mas de 250000
-GO
 CREATE VIEW VISTA_PROPIEDADES_MENORES_250000 AS
 SELECT 
     ID_propiedad,
@@ -1057,7 +1024,7 @@ SELECT
     ID_direccion
 FROM PROPIEDAD
 WHERE Valor_usd < 250000;
-
+GO
 
 			---Ejecuto---
 
@@ -1071,11 +1038,10 @@ SELECT ID_propiedad,
     ID_propietario,
     ID_direccion 
 FROM VISTA_PROPIEDADES_MENORES_250000;
-
+GO
 
 
 ---- vista de informacion relevante de una propiedad
-GO
 CREATE VIEW vw_PropiedadesDetalladas AS
 SELECT 
     p.ID_propiedad,
@@ -1090,6 +1056,7 @@ SELECT
 FROM PROPIEDAD p
 JOIN PROPIETARIO pr ON p.ID_propietario = pr.ID_propietario
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion;
+GO
 
 ---- ejecuto ------
 
@@ -1102,13 +1069,13 @@ SELECT ID_propiedad,
 	Tipo, Propietario,
 	Direccion
 FROM vw_PropiedadesDetalladas;
+GO
 
 
 
 
 
 ----- vista de contratos completos
-GO
 CREATE VIEW vw_ContratosCompletos AS
 SELECT 
     c.ID_contrato,
@@ -1123,6 +1090,7 @@ FROM CONTRATO c
 JOIN CLIENTE cl ON c.ID_cliente = cl.ID_cliente
 JOIN AGENTES_INMOBILIARIO a ON c.ID_agente = a.ID_agente
 JOIN PROPIEDAD p ON c.ID_propiedad = p.ID_propiedad;
+GO
 
 ---- ejecuto -----
 
@@ -1135,10 +1103,10 @@ SELECT ID_contrato,
 	Agente,
 	Propiedad
 FROM vw_ContratosCompletos;
+GO
 
 
 ----- vista de visitas pendientes
-GO
 CREATE VIEW vw_VisitasPendientes AS
 SELECT 
     v.ID_visita,
@@ -1150,7 +1118,7 @@ FROM VISITA v
 JOIN PROPIEDAD p ON v.ID_propiedad = p.ID_propiedad
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
 WHERE v.Estado = 0; -- seleccionar solo las que esten pendientes (estado = 0)
-
+GO
 
 
 ---- ejecuto -----
@@ -1164,9 +1132,8 @@ SELECT ID_contrato,
 	Agente,
 	Propiedad
 FROM vw_ContratosCompletos;
-
------- vista de propiedades por ciudad (promedio de precio y ambientes)
 GO
+------ vista de propiedades por ciudad (promedio de precio y ambientes)
 CREATE OR ALTER VIEW vw_PropiedadesPorCiudad AS
 SELECT 
     d.Ciudad,
@@ -1176,7 +1143,7 @@ SELECT
 FROM PROPIEDAD p
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
 GROUP BY d.Ciudad;
-
+GO
 
 --- ejecuto ----
 
@@ -1186,9 +1153,8 @@ SELECT
 	Precio_Promedio,
 	Ambientes_promedio
 FROM vw_PropiedadesPorCiudad;
-
------- vista de clientes con mayor cantidad de contratos -------------
 GO
+------ vista de clientes con mayor cantidad de contratos -------------
 CREATE OR ALTER VIEW vw_ClientesConMasContratos AS
 SELECT 
     cl.ID_cliente,
@@ -1198,8 +1164,7 @@ FROM CLIENTE cl
 LEFT JOIN CONTRATO c ON cl.ID_cliente = c.ID_cliente
 GROUP BY cl.ID_cliente, cl.Nombre, cl.Apellido
 ORDER BY Cantidad_Contratos DESC;
-
-
+GO
 
 ---- ejecuto ----
 
@@ -1208,7 +1173,7 @@ SELECT
 	Cliente,
 	Cantidad_Contratos
 FROM vw_ClientesConMasContratos;
-
+GO
 
 ------------ procedimientos almacenados con valor para el sistema -----------------------------------------------------------------------------------------------------
 
