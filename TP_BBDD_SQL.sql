@@ -5,7 +5,15 @@ GO
 USE SISTEMA_PROPIEDADES_BD;
 GO
 
+CREATE DATABASE SISTEMA__BD;
+GO
+
+USE SISTEMA__BD;
+GO
+
 -- 1. Tablas base
+
+
 CREATE TABLE DIRECCION (
     ID_direccion INT CONSTRAINT PK_Direccion PRIMARY KEY IDENTITY(1,1),
     Calle VARCHAR(100) NOT NULL,
@@ -18,6 +26,7 @@ CREATE TABLE DIRECCION (
     Departamento VARCHAR(10),
     Observaciones TEXT
 );
+
 GO
 
 CREATE TABLE PROPIETARIO (
@@ -344,7 +353,17 @@ CREATE PROCEDURE sp_ListarDirecciones
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM DIRECCION;
+        SELECT ID_direccion,
+			Calle,
+			Numero,
+			Barrio,
+			Ciudad,
+			Provincia,
+			Codigo_postal,
+			Piso,
+			Departamento,
+			Observaciones
+		FROM DIRECCION;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar direcciones.';
@@ -359,7 +378,15 @@ CREATE PROCEDURE sp_ListarPropietarios
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM PROPIETARIO;
+        SELECT ID_propietario,
+            Nombre,
+            Apellido,
+            Telefono,
+            Fecha_registro,
+            Fecha_nacimiento,
+            Estado,
+            Cuit
+		FROM PROPIETARIO;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar propietarios.';
@@ -374,7 +401,16 @@ CREATE PROCEDURE sp_ListarPropiedades
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM PROPIEDAD;
+        SELECT ID_propiedad,
+            Descripcion,
+            ID_direccion,
+            Valor_usd,
+            Metros_cuadrados,
+            Cantidad_ambientes,
+            Fecha_contruccion,
+            Tipo,
+            ID_propietario 
+		FROM PROPIEDAD;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar propiedades.';
@@ -389,7 +425,15 @@ CREATE PROCEDURE sp_ListarClientes
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM CLIENTE;
+        SELECT ID_cliente,
+            DNI,
+            Nombre,
+            Apellido,
+            Estado,
+            Fecha_nacimiento,
+            Fecha_registro,
+            Telefono
+		FROM CLIENTE;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar clientes.';
@@ -404,7 +448,16 @@ CREATE PROCEDURE sp_ListarAgentes
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM AGENTE_INMOBILIARIO;
+        SELECT ID_agente,
+            DNI,
+            Nombre,
+            Apellido,
+            Telefono,
+            Comision,
+            Fecha_nacimiento,
+            Fecha_registro,
+            Estado
+		FROM AGENTE_INMOBILIARIO;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar agentes inmobiliarios.';
@@ -420,7 +473,15 @@ CREATE PROCEDURE sp_ListarContratos
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM CONTRATO;
+        SELECT ID_contrato,
+            Condiciones,
+            Precio_final,
+            Fecha,
+            Forma_pago,
+            ID_propiedad,
+            ID_cliente,
+            ID_agente
+		FROM CONTRATO;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar contratos.';
@@ -435,7 +496,14 @@ CREATE PROCEDURE sp_ListarPagos
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM PAGO;
+        SELECT ID_pago,
+            Fecha_pago,
+            Monto,
+            Metodo_pago,
+            Descripcion,
+            Estado_pago,
+            ID_contrato
+		FROM PAGO;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar pagos.';
@@ -451,7 +519,12 @@ CREATE PROCEDURE sp_ListarVisitas
 AS
 BEGIN
     BEGIN TRY
-        SELECT * FROM VISITA;
+        SELECT  ID_visita,
+            Fecha_visita,
+            Comentarios,
+            Estado,
+            ID_propiedad 
+		FROM VISITA;
     END TRY
     BEGIN CATCH
         PRINT 'Error al listar visitas.';
@@ -1441,15 +1514,13 @@ SELECT AVG(Valor_usd) AS Precio_Promedio FROM PROPIEDAD;
 SELECT MIN(Valor_usd) AS Precio_Minimo FROM PROPIEDAD;
 
 SELECT MAX(Valor_usd) AS Precio_Maximo FROM PROPIEDAD;
-
-
+GO
 
 
 ----FUNCIONES -------------------------------------------------------------------------------------
 
 --- ranking barrios por precio de metro cuadrado promedio
 
-GO
 CREATE FUNCTION fn_BarriosMayorPrecioMetroCuadrado()
 RETURNS TABLE
 AS
@@ -1463,18 +1534,17 @@ RETURN
     WHERE P.Metros_cuadrados > 0
     GROUP BY D.Barrio
 );
-
+GO
 ----ejecuto -----
 
-SELECT * FROM fn_BarriosMayorPrecioMetroCuadrado()
+SELECT Barrio, Precio_Promedio_Metro_Cuadrado FROM fn_BarriosMayorPrecioMetroCuadrado()
 ORDER BY Precio_Promedio_Metro_Cuadrado DESC;
-
+GO
 
 
 
 ----- cantidad de contratos por cliente
 
-GO
 CREATE OR ALTER FUNCTION fn_ContratosPorCliente
 (
     @ID_cliente INT
@@ -1496,6 +1566,7 @@ RETURN
     JOIN AGENTE_INMOBILIARIO a ON c.ID_agente = a.ID_agente
     WHERE c.ID_cliente = @ID_cliente
 );
+GO
 
 ------- ejecuto -------
 
