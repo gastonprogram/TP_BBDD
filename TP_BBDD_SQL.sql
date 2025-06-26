@@ -48,7 +48,8 @@ CREATE TABLE PROPIEDAD (
     CONSTRAINT FK_Propiedad_Propietario FOREIGN KEY (ID_propietario) REFERENCES PROPIETARIO(ID_propietario),
     CONSTRAINT CK_Valor_Propiedad CHECK (Valor_usd >= 0),
     CONSTRAINT CK_Metros_Propiedad CHECK (Metros_cuadrados > 0),
-    CONSTRAINT CK_Ambientes_Propiedad CHECK (Cantidad_ambientes > 0)
+    CONSTRAINT CK_Ambientes_Propiedad CHECK (Cantidad_ambientes > 0),
+	CONSTRAINT CHK_Propiedad_Tipo CHECK (Tipo IN ('Casa', 'PH', 'Departamento')),
 );
 GO
 
@@ -906,85 +907,142 @@ GO
 
 
 
+-------------------- INSERCION DE DATOS UTILIZANDO PROCEDIMIENTOS ----------------------------------------
+
+------- direccion -----------
+EXEC sp_InsertarDireccion 'Av. Rivadavia', '1234', 'Caballito', 'CABA', 'Buenos Aires', '1405', '1', '3', 'Frente a la plaza';
+EXEC sp_InsertarDireccion 'Calle Falsa', '742', 'Springfield', 'Springfield', 'Illinois', '62704', '3', '10', 'Departamento amplio';
+EXEC sp_InsertarDireccion 'Av. Corrientes', '8800', 'Villa Crespo', 'CABA', 'Buenos Aires', '1414', '7', '14', '';
+EXEC sp_InsertarDireccion 'Av. Belgrano', '456', 'San Cristobal', 'CABA', 'Buenos Aires', '1200', '12', '32', 'Sin observaciones';
+EXEC sp_InsertarDireccion 'Calle Mitre', '1500', 'Centro', 'Rosario', 'Santa Fe', '2000', '1', '2', 'Con balcón';
+EXEC sp_InsertarDireccion 'Ruta 8', '800', 'Pilar', 'Pilar', 'Buenos Aires', '1629', '7', '10', 'Casa quinta';
+EXEC sp_InsertarDireccion 'Sarmiento', '135', 'Centro', 'Mendoza', 'Mendoza', '5500', '5', '13', 'Muy luminosa';
+EXEC sp_InsertarDireccion 'Av. Libertador', '3456', 'Núñez', 'CABA', 'Buenos Aires', '1429', '10', 'G', 'Vista al río';
+EXEC sp_InsertarDireccion 'San Juan', '789', 'Sur', 'San Juan', 'San Juan', '5400', '2', '11', 'Balcon a la calle';
+EXEC sp_InsertarDireccion 'Av. San Martín', '1000', 'Centro', 'Córdoba', 'Córdoba', '5000', '4', '19', 'Reciclado a nuevo';
+EXEC sp_InsertarDireccion 'Italia', '245', 'Norte', 'La Plata', 'Buenos Aires', '1900', '6', '6', '';
+EXEC sp_InsertarDireccion 'Av. Colón', '321', 'Centro', 'Salta', 'Salta', '4400', '5', '13', 'Ideal para oficina';
+EXEC sp_InsertarDireccion 'España', '999', 'Casco Histórico', 'San Miguel de Tucumán', 'Tucumán', '4000', '8', '18', 'Edificio moderno';
+EXEC sp_InsertarDireccion 'Uruguay', '654', 'Microcentro', 'CABA', 'Buenos Aires', '1015', '9', '21', 'Apto profesional';
+EXEC sp_InsertarDireccion 'Brasil', '111', 'Zona Sur', 'Posadas', 'Misiones', '3300', '2', '4', 'Zona centrica';
+
+------ propietario ---------
+
+EXEC sp_InsertarPropietario 'Juan', 'Pérez', '1156781234', '2023-01-10', '1980-06-15', 1, '20-12345678-9';
+EXEC sp_InsertarPropietario 'María', 'González', '1167892345', '2023-01-15', '1985-08-20', 1, '27-23456789-0';
+EXEC sp_InsertarPropietario 'Carlos', 'López', '1178903456', '2023-02-01', '1975-02-10', 1, '23-34567890-1';
+EXEC sp_InsertarPropietario 'Laura', 'Martínez', '1189014567', '2023-02-10', '1990-12-01', 1, '26-45678901-2';
+EXEC sp_InsertarPropietario 'Roberto', 'Díaz', '1190125678', '2023-03-01', '1982-11-22', 1, '20-56789012-3';
+EXEC sp_InsertarPropietario 'Ana', 'Sánchez', '1111236789', '2023-03-15', '1978-09-05', 1, '27-67890123-4';
+EXEC sp_InsertarPropietario 'Jorge', 'Ramírez', '1122347890', '2023-04-01', '1983-03-03', 1, '23-78901234-5';
+EXEC sp_InsertarPropietario 'Lucía', 'Fernández', '1133458901', '2023-04-20', '1991-07-19', 1, '26-89012345-6';
+EXEC sp_InsertarPropietario 'Diego', 'Herrera', '1144569012', '2023-05-01', '1989-10-10', 1, '20-90123456-7';
+EXEC sp_InsertarPropietario 'Valeria', 'Torres', '1155670123', '2023-05-20', '1987-04-08', 1, '27-01234567-8';
+EXEC sp_InsertarPropietario 'Martín', 'Gómez', '1166781234', '2023-06-01', '1981-06-21', 1, '23-12345678-9';
+EXEC sp_InsertarPropietario 'Camila', 'Rojas', '1177892345', '2023-06-15', '1992-02-17', 1, '26-23456789-0';
+EXEC sp_InsertarPropietario 'Facundo', 'Castro', '1188903456', '2023-07-01', '1984-11-12', 1, '20-34567890-1';
+EXEC sp_InsertarPropietario 'Romina', 'Silva', '1199014567', '2023-07-20', '1993-08-09', 1, '27-45678901-2';
+EXEC sp_InsertarPropietario 'Tomás', 'Vega', '1100125678', '2023-08-01', '1995-05-05', 1, '23-56789012-3';
 
 
-------
---
---
---
---
----
---
---
----
---
----
----
+------ cliente --------
+
+EXEC sp_InsertarCliente '30111222', 'Juan', 'Pérez', 1, '1985-03-15', '2023-01-01', '1156781234';
+EXEC sp_InsertarCliente '30222333', 'María', 'González', 1, '1990-07-22', '2023-01-05', '1167892345';
+EXEC sp_InsertarCliente '30333444', 'Carlos', 'López', 1, '1978-11-30', '2023-01-10', '1178903456';
+EXEC sp_InsertarCliente '30444555', 'Ana', 'Martínez', 1, '1989-04-10', '2023-01-12', '1189014567';
+EXEC sp_InsertarCliente '30555666', 'Roberto', 'Díaz', 1, '1982-02-01', '2023-01-15', '1190125678';
+EXEC sp_InsertarCliente '30666777', 'Laura', 'Sánchez', 1, '1991-09-18', '2023-01-18', '1111236789';
+EXEC sp_InsertarCliente '30777888', 'Sofía', 'Gutiérrez', 1, '1995-12-05', '2023-01-22', '1122347890';
+EXEC sp_InsertarCliente '30888999', 'Luis', 'Romero', 1, '1976-06-23', '2023-01-25', '1133458901';
+EXEC sp_InsertarCliente '30999000', 'Marta', 'Fernández', 1, '1987-05-11', '2023-01-28', '1144569012';
+EXEC sp_InsertarCliente '30100111', 'Jorge', 'Alvarez', 1, '1980-01-20', '2023-02-01', '1155670123';
+EXEC sp_InsertarCliente '31000222', 'Julia', 'Herrera', 1, '1992-03-27', '2023-02-05', '1166781234';
+EXEC sp_InsertarCliente '31111333', 'Diego', 'Rodríguez', 1, '1983-10-13', '2023-02-10', '1177892345';
+EXEC sp_InsertarCliente '31222444', 'Patricia', 'Castro', 1, '1990-06-30', '2023-02-15', '1188903456';
+EXEC sp_InsertarCliente '31333555', 'Oscar', 'Ruiz', 1, '1975-11-08', '2023-02-20', '1199014567';
+EXEC sp_InsertarCliente '31444666', 'Carla', 'Morales', 1, '1993-04-15', '2023-02-25', '1100125678';
+
+
+------- agente inmobiliario -----------
+
+EXEC sp_InsertarAgente '40111222', 'Ignacio', 'Giménez', '1122334455', '10', '1980-10-10', '2025-01-01', 1;
+EXEC sp_InsertarAgente '40222333', 'Luciana', 'Prieto', '1133445566', '12', '1985-09-12', '2025-01-05', 1;
+EXEC sp_InsertarAgente '40333444', 'Esteban', 'Suárez', '1144556677', '15', '1978-03-25', '2025-01-08', 1;
+EXEC sp_InsertarAgente '40444555', 'Pamela', 'Ruiz', '1155667788', '8', '1989-06-30', '2025-01-10', 1;
+EXEC sp_InsertarAgente '40555666', 'Martín', 'Vera', '1166778899', '11', '1982-07-19', '2025-01-15', 1;
+EXEC sp_InsertarAgente '40666777', 'Cecilia', 'Acosta', '1177889900', '14', '1991-05-05', '2025-01-18', 1;
+EXEC sp_InsertarAgente '40777888', 'Fernando', 'Cáceres', '1188990011', '9', '1990-08-08', '2025-01-22', 1;
+EXEC sp_InsertarAgente '40888999', 'Soledad', 'Ibarra', '1199001122', '13', '1984-11-15', '2025-01-25', 1;
+EXEC sp_InsertarAgente '40999000', 'Federico', 'Moyano', '1100112233', '10', '1987-12-12', '2025-01-28', 1;
+EXEC sp_InsertarAgente '41000111', 'Paula', 'Rivera', '1111223344', '7', '1993-03-03', '2025-02-01', 1;
+EXEC sp_InsertarAgente '41111222', 'Santiago', 'Delgado', '1122334455', '10', '1995-01-01', '2025-02-05', 1;
+EXEC sp_InsertarAgente '41222333', 'Agustina', 'Peralta', '1133445566', '12', '1990-06-10', '2025-02-10', 1;
+EXEC sp_InsertarAgente '41333444', 'Tomás', 'Herrera', '1144556677', '11', '1988-09-30', '2025-02-15', 1;
+EXEC sp_InsertarAgente '41444555', 'Camila', 'Sosa', '1155667788', '9', '1986-04-04', '2025-02-20', 1;
+EXEC sp_InsertarAgente '41555666', 'Andrés', 'Moreno', '1166778899', '13', '1981-07-07', '2025-02-25', 1;
+
+------- propiedad ---------
+
+EXEC sp_InsertarPropiedad 'Casa familiar en zona céntrica', 1, 550000, 150, 5, '2010-05-10', 'Casa', 1;
+EXEC sp_InsertarPropiedad 'PH cómodo con patio', 2, 320000, 90, 3, '2015-08-23', 'PH', 2;
+EXEC sp_InsertarPropiedad 'Departamento moderno', 3, 400000, 70, 3, '2018-11-11', 'Departamento', 3;
+EXEC sp_InsertarPropiedad 'Casa antigua con jardín', 4, 600000, 200, 6, '2005-03-14', 'Casa', 4;
+EXEC sp_InsertarPropiedad 'Departamento céntrico', 5, 350000, 80, 3, '2017-07-09', 'Departamento', 5;
+EXEC sp_InsertarPropiedad 'PH con buena iluminación', 6, 280000, 85, 3, '2016-04-02', 'PH', 6;
+EXEC sp_InsertarPropiedad 'Casa con piscina', 7, 750000, 180, 7, '2012-12-30', 'Casa', 7;
+EXEC sp_InsertarPropiedad 'Departamento con balcón', 8, 380000, 75, 3, '2019-01-15', 'Departamento', 8;
+EXEC sp_InsertarPropiedad 'PH renovado', 9, 290000, 88, 3, '2014-06-20', 'PH', 9;
+EXEC sp_InsertarPropiedad 'Casa en barrio residencial', 10, 620000, 170, 6, '2011-09-17', 'Casa', 10;
+EXEC sp_InsertarPropiedad 'Departamento nuevo', 11, 450000, 78, 3, '2020-02-27', 'Departamento', 11;
+EXEC sp_InsertarPropiedad 'PH con patio amplio', 12, 310000, 95, 3, '2013-10-05', 'PH', 12;
+EXEC sp_InsertarPropiedad 'Casa clásica con garage', 13, 580000, 160, 5, '2009-08-29', 'Casa', 13;
+EXEC sp_InsertarPropiedad 'Departamento con vista', 14, 420000, 72, 3, '2018-05-12', 'Departamento', 14;
+EXEC sp_InsertarPropiedad 'PH acogedor', 15, 300000, 90, 3, '2015-11-18', 'PH', 15;
+
+------- contrato ---------------
+
+
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 550000, '2025-06-10', 'Transferencia', 1, 1, 1;
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 320000, '2025-06-12', 'Transferencia', 2, 2, 2;
+EXEC sp_InsertarContrato 'Se acepta mascota', 400000, '2025-06-14', 'Transferencia', 3, 3, 3;
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 600000, '2025-06-15', 'Transferencia', 4, 4, 4;
+EXEC sp_InsertarContrato 'Se aceptan mascotas pequeñas', 350000, '2025-06-15', 'Transferencia', 5, 5, 5;
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 280000, '2025-06-14', 'Transferencia', 6, 6, 6;
+EXEC sp_InsertarContrato 'Incluye mobiliario', 750000, '2025-06-16', 'Transferencia', 7, 7, 7;
+EXEC sp_InsertarContrato 'Entrega a 30 días', 380000, '2025-06-21', 'Transferencia', 8, 8, 8;
+EXEC sp_InsertarContrato 'Se acepta mascota', 290000, '2025-06-21', 'Transferencia', 9, 9, 9;
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 620000, '2025-06-24', 'Transferencia', 10, 10, 10;
+EXEC sp_InsertarContrato 'Se acepta mascota', 450000, '2025-06-26', 'Transferencia', 11, 11, 11;
+EXEC sp_InsertarContrato 'Entrega con llave', 310000, '2025-06-01', 'Transferencia', 12, 12, 12;
+EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 580000, '2025-06-01', 'Transferencia', 13, 13, 13;
+EXEC sp_InsertarContrato 'Incluye cochera', 420000, '2025-06-01', 'Transferencia', 14, 14, 14;
+EXEC sp_InsertarContrato 'Sin mascotas', 300000, '2025-06-01', 'Transferencia', 15, 15, 15;
+
+
+------- visita -----------
+
+EXEC sp_InsertarVisita '2025-06-01', 'Cliente interesado, pedir más fotos', 1, 1;
+EXEC sp_InsertarVisita '2025-06-03', 'Visita con posibilidad de oferta', 1, 2;
+EXEC sp_InsertarVisita '2025-06-05', 'Cliente quiere visitar en la tarde', 1, 3;
+EXEC sp_InsertarVisita '2025-06-07', 'CLiente interesado', 1, 4;
+EXEC sp_InsertarVisita '2025-06-10', 'Cliente quiere saber sobre gastos comunes', 1, 5;
+EXEC sp_InsertarVisita '2025-06-12', 'Cliente interesado', 1, 6;
+EXEC sp_InsertarVisita '2025-06-15', 'Visita con familia numerosa', 1, 7;
+EXEC sp_InsertarVisita '2025-06-18', 'Interesados en financiación', 1, 8;
+EXEC sp_InsertarVisita '2025-06-20', 'Visita programada para la tarde', 1, 9;
+EXEC sp_InsertarVisita '2025-06-22', 'Cliente quiere comparar con otra propiedad', 1, 10;
+EXEC sp_InsertarVisita '2025-06-25', 'Visita con agente de confianza', 1, 11;
+EXEC sp_InsertarVisita '2025-06-27', 'Cliente solicita planos de la propiedad', 0, 12;
+EXEC sp_InsertarVisita '2025-06-30', 'Interesados en barrio seguro', 0, 13;
+EXEC sp_InsertarVisita '2025-07-02', 'Visita programada', 0, 14;
+EXEC sp_InsertarVisita '2025-07-05', 'Cliente muy interesado, posible oferta', 0, 15;
 
 
 
----------------------- esto hay que corregir ------------------------------------
-
-
--------------- Ingresar los datos con los procedimientos almacenados ------------------------------------------------------------------------------------------------------------
-
-
---1 Primero inserto el contrato 
-EXEC INGRESO_CONTRATOS
-    @Condiciones = 'Contrato por 12 meses, incluye mantenimiento',
-    @Precio_final = 150000,
-    @Fecha = '2025-06-10',
-    @Forma_pago = 'Transferencia';
-
-
-	
---2 Ingreso una propiedad
-EXEC INGRESO_PROPIEDADES 
-	@Descripcion = 'Piso completo con gran vista a la 9 de julio',
-	@Direccion = 'Indepencia y Lima ',
-	@Valor_usd = 600000,
-	@Metros_cuadrados = 500,
-	@Cantidad_ambientes= 5,
-	@Fecha_contruccion = '2019-06-13',
-	@Tipo = 'Departamento',
-	@ID_contrato = 1;
-
---3 Ingreso de propietarios
-EXEC INGRESO_PROPIETARIOS
-		@Nombre= 'Juan',
-		@Apellido = 'Scotti',
-		@Telefono = '11 2030-0522', 
-		@Fecha_registro ='2012-04-22',
-		@Fecha_nacimiento= '2005-06-11',
-		@Estado= 1,
-		@Cuit ='20-32895712-5',
-		@ID_propiedad =1;
-
-
---4 Ingreso de Agente inmobiliario 
-EXEC INGRESO_AGENTES 
-    @DNI = '28934765',
-    @Nombre = 'Carlos',
-    @Apellido = 'Mendoza',
-    @Telefono = '11-3344-5566',
-    @Comision = '5%',
-    @Fecha_nacimiento = '1990-08-15',
-    @Fecha_registro = '2023-06-01',
-    @Estado = 1,
-    @ID_contrato = 1;
 
 
 
---5 Ingreso de cliente 
-	EXEC INGRESO_CIENTES
-    @DNI = '12345678',
-    @Nombre = 'Laura',
-    @Apellido = 'Pérez',
-    @Estado = 1,
-    @Fecha_nacimiento = '1990-08-15',
-    @Fecha_registro = '2025-06-12',
-    @Telefono = '1123456789',
-    @ID_contrato = 1;
 
 
 
@@ -1137,15 +1195,12 @@ GO
 
 ---- ejecuto -----
 
-SELECT ID_contrato,
-	Fecha,
-	Forma_pago,
-	Precio_final,
-	Condiciones,
-	Cliente,
-	Agente,
-	Propiedad
-FROM vw_ContratosCompletos;
+SELECT ID_visita,
+	Fecha_visita,
+	Comentarios,
+	Propiedad,
+	Direccion
+FROM vw_VisitasPendientes;
 GO
 ------ vista de propiedades por ciudad (promedio de precio y ambientes)
 CREATE OR ALTER VIEW vw_PropiedadesPorCiudad AS
@@ -1177,7 +1232,6 @@ SELECT
 FROM CLIENTE cl
 LEFT JOIN CONTRATO c ON cl.ID_cliente = c.ID_cliente
 GROUP BY cl.ID_cliente, cl.Nombre, cl.Apellido
-ORDER BY Cantidad_Contratos DESC;
 GO
 
 ---- ejecuto ----
@@ -1186,7 +1240,8 @@ SELECT
 	ID_cliente,
 	Cliente,
 	Cantidad_Contratos
-FROM vw_ClientesConMasContratos;
+FROM vw_ClientesConMasContratos
+ORDER BY Cantidad_Contratos DESC;
 GO
 
 ------------ procedimientos almacenados con valor para el sistema -----------------------------------------------------------------------------------------------------
@@ -1243,7 +1298,8 @@ END;
 -----ejecuto -----
 
 
-EXEC sp_TotalRecaudadoPorFecha;
+EXEC sp_TotalRecaudadoPorFecha @FechaInicio = '2025-05-30',  @FechaFin = '2025-06-30';
+
 
 -----el tiempo promedio que pasa entre una visita y un contrato
 GO
@@ -1276,7 +1332,7 @@ EXEC sp_TiempoPromedioVisitaContrato;
 ----READ---
 
 
-SELECT * FROM PROPIEDADES WHERE Fecha_contruccion>'2020-01-01';
+SELECT * FROM PROPIEDAD WHERE Fecha_contruccion>'2020-01-01';
 
 SELECT Nombre, Apellido, COUNT(ID_propietario) AS Cantidad_propiedades FROM PROPIETARIO GROUP BY Nombre, Apellido;
 
@@ -1284,25 +1340,29 @@ SELECT Nombre,Apellido FROM CLIENTE WHERE Nombre LIKE 'L%' or Apellido LIKE '%o'
 
 SELECT ID_cliente, Nombre, Apellido FROM CLIENTE WHERE Telefono IS NULL;
 
-
 SELECT ID_visita, Comentarios, Estado, ID_propiedad FROM VISITA WHERE Fecha_visita >= DATEADD(DAY, -7, GETDATE());
 
 SELECT ID_CLIENTE, Nombre, Apellido, Fecha_registro FROM CLIENTE WHERE Fecha_registro >= DATEADD(MONTH, -1, GETDATE());
 
 SELECT ID_agente, Nombre, Apellido, Comision FROM AGENTE_INMOBILIARIO WHERE Estado = 1 AND Comision IS NOT NULL;
 
-SELECT ID_propietario, Nombre, Apellido, Cuit FROM PROPIETARIOS WHERE Cuit IS NOT NULL AND Estado = 1;
+SELECT ID_propietario, Nombre, Apellido, Cuit FROM PROPIETARIO WHERE Cuit IS NOT NULL AND Estado = 1;
 
 SELECT ID_pago, Fecha_pago, Monto, Metodo_pago FROM PAGO WHERE Estado_pago = 0;
 
+
+----- consulta cantidad de contratos por barrio (teniendo en cuenta la cantidad de propiedades) -------
+
 SELECT 
     D.Barrio AS Barrio,
-    COUNT(C.ID_contrato) AS Cantidad_Contratos
-FROM CONTRATO C
-INNER JOIN PROPIEDAD P ON C.ID_propiedad = P.ID_propiedad
-INNER JOIN DIRECCION D ON P.ID_direccion = D.ID_direccion
+    COUNT(C.ID_contrato) AS Cantidad_Contratos,
+    COUNT(DISTINCT P.ID_propiedad) AS Cantidad_Propiedades
+FROM DIRECCION D
+LEFT JOIN PROPIEDAD P ON D.ID_direccion = P.ID_direccion
+LEFT JOIN CONTRATO C ON P.ID_propiedad = C.ID_propiedad
 GROUP BY D.Barrio
 ORDER BY Cantidad_Contratos DESC;
+
 
 
 
@@ -1373,19 +1433,22 @@ END
 
 
 ---AGREGACION Y AGRUPAMIENTO---
-SELECT COUNT(*) FROM PROPIEDADES;
 
-SELECT AVG(Valor_usd)FROM PROPIEDADES;
+SELECT COUNT(*) AS Total_Propiedades FROM PROPIEDAD;
 
-SELECT MIN(Valor_usd) FROM PROPIEDADES;
+SELECT AVG(Valor_usd) AS Precio_Promedio FROM PROPIEDAD;
 
-SELECT MAX(Valor_usd) FROM PROPIEDADES;
+SELECT MIN(Valor_usd) AS Precio_Minimo FROM PROPIEDAD;
 
+SELECT MAX(Valor_usd) AS Precio_Maximo FROM PROPIEDAD;
 
 
 
 
 ----FUNCIONES -------------------------------------------------------------------------------------
+
+--- ranking barrios por precio de metro cuadrado promedio
+
 GO
 CREATE FUNCTION fn_BarriosMayorPrecioMetroCuadrado()
 RETURNS TABLE
@@ -1399,9 +1462,17 @@ RETURN
     INNER JOIN DIRECCION D ON P.ID_direccion = D.ID_direccion
     WHERE P.Metros_cuadrados > 0
     GROUP BY D.Barrio
-    ORDER BY Precio_Promedio_Metro_Cuadrado DESC
 );
 
+----ejecuto -----
+
+SELECT * FROM fn_BarriosMayorPrecioMetroCuadrado()
+ORDER BY Precio_Promedio_Metro_Cuadrado DESC;
+
+
+
+
+----- cantidad de contratos por cliente
 
 GO
 CREATE OR ALTER FUNCTION fn_ContratosPorCliente
@@ -1425,3 +1496,14 @@ RETURN
     JOIN AGENTE_INMOBILIARIO a ON c.ID_agente = a.ID_agente
     WHERE c.ID_cliente = @ID_cliente
 );
+
+------- ejecuto -------
+
+SELECT ID_contrato,
+	Fecha,
+	Forma_pago,
+	Precio_final,
+	Condiciones,
+	Propiedad,
+	Agente
+FROM fn_ContratosPorCliente(1);
