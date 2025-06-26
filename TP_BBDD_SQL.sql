@@ -5,12 +5,6 @@ GO
 USE SISTEMA_PROPIEDADES_BD;
 GO
 
-CREATE DATABASE SISTEMA__BD;
-GO
-
-USE SISTEMA__BD;
-GO
-
 -- 1. Tablas base
 
 
@@ -153,12 +147,12 @@ BEGIN
         INSERT INTO DIRECCION (Calle, Numero, Barrio, Ciudad, Provincia, Codigo_postal, Piso, Departamento, Observaciones)
         VALUES (@Calle, @Numero, @Barrio, @Ciudad, @Provincia, @Codigo_postal, @Piso, @Departamento, @Observaciones);
 
-        PRINT 'Direcci髇 insertada exitosamente.';
+        PRINT 'Direcci贸n insertada exitosamente.';
     END TRY
     BEGIN CATCH
-        PRINT 'Error al insertar direcci髇.';
+        PRINT 'Error al insertar direcci贸n.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -185,7 +179,7 @@ BEGIN
     BEGIN CATCH 
         PRINT 'Error al insertar propietario.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -211,7 +205,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar propiedad.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -236,7 +230,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar cliente.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -265,7 +259,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar agente.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -291,7 +285,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar contrato.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -315,7 +309,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar pago.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -339,7 +333,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al insertar visita.';
         PRINT 'Mensaje de error: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo de error: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -567,12 +561,12 @@ BEGIN
             Observaciones = @Observaciones
         WHERE ID_direccion = @ID_direccion;
 
-        PRINT 'Direcci髇 actualizada exitosamente.';
+        PRINT 'Direcci贸n actualizada exitosamente.';
     END TRY
     BEGIN CATCH
-        PRINT 'Error al actualizar direcci髇.';
+        PRINT 'Error al actualizar direcci贸n.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -606,7 +600,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar propietario.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -642,7 +636,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar propiedad.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -675,7 +669,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar cliente.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -712,7 +706,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar agente.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -747,7 +741,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar contrato.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -780,7 +774,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar pago.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -809,7 +803,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al actualizar visita.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -826,12 +820,12 @@ BEGIN
         DELETE FROM DIRECCION
         WHERE ID_direccion = @ID_direccion;
 
-        PRINT 'Direcci髇 eliminada exitosamente.';
+        PRINT 'Direcci贸n eliminada exitosamente.';
     END TRY
     BEGIN CATCH
-        PRINT 'Error al eliminar direcci髇.';
+        PRINT 'Error al eliminar direcci贸n.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -851,7 +845,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar propietario.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -872,7 +866,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar propiedad.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -892,7 +886,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar cliente.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -912,7 +906,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar agente.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -932,7 +926,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar contrato.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -952,7 +946,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar pago.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -973,7 +967,7 @@ BEGIN
     BEGIN CATCH
         PRINT 'Error al eliminar visita.';
         PRINT 'Mensaje: ' + ERROR_MESSAGE();
-        PRINT 'C骴igo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
+        PRINT 'C贸digo: ' + CAST(ERROR_NUMBER() AS VARCHAR);
     END CATCH
 END
 GO
@@ -987,51 +981,51 @@ EXEC sp_InsertarDireccion 'Av. Rivadavia', '1234', 'Caballito', 'CABA', 'Buenos 
 EXEC sp_InsertarDireccion 'Calle Falsa', '742', 'Springfield', 'Springfield', 'Illinois', '62704', '3', '10', 'Departamento amplio';
 EXEC sp_InsertarDireccion 'Av. Corrientes', '8800', 'Villa Crespo', 'CABA', 'Buenos Aires', '1414', '7', '14', '';
 EXEC sp_InsertarDireccion 'Av. Belgrano', '456', 'San Cristobal', 'CABA', 'Buenos Aires', '1200', '12', '32', 'Sin observaciones';
-EXEC sp_InsertarDireccion 'Calle Mitre', '1500', 'Centro', 'Rosario', 'Santa Fe', '2000', '1', '2', 'Con balc髇';
+EXEC sp_InsertarDireccion 'Calle Mitre', '1500', 'Centro', 'Rosario', 'Santa Fe', '2000', '1', '2', 'Con balc贸n';
 EXEC sp_InsertarDireccion 'Ruta 8', '800', 'Pilar', 'Pilar', 'Buenos Aires', '1629', '7', '10', 'Casa quinta';
 EXEC sp_InsertarDireccion 'Sarmiento', '135', 'Centro', 'Mendoza', 'Mendoza', '5500', '5', '13', 'Muy luminosa';
-EXEC sp_InsertarDireccion 'Av. Libertador', '3456', 'Nez', 'CABA', 'Buenos Aires', '1429', '10', 'G', 'Vista al r韔';
+EXEC sp_InsertarDireccion 'Av. Libertador', '3456', 'N煤帽ez', 'CABA', 'Buenos Aires', '1429', '10', 'G', 'Vista al r铆o';
 EXEC sp_InsertarDireccion 'San Juan', '789', 'Sur', 'San Juan', 'San Juan', '5400', '2', '11', 'Balcon a la calle';
-EXEC sp_InsertarDireccion 'Av. San Mart韓', '1000', 'Centro', 'C髍doba', 'C髍doba', '5000', '4', '19', 'Reciclado a nuevo';
+EXEC sp_InsertarDireccion 'Av. San Mart铆n', '1000', 'Centro', 'C贸rdoba', 'C贸rdoba', '5000', '4', '19', 'Reciclado a nuevo';
 EXEC sp_InsertarDireccion 'Italia', '245', 'Norte', 'La Plata', 'Buenos Aires', '1900', '6', '6', '';
-EXEC sp_InsertarDireccion 'Av. Col髇', '321', 'Centro', 'Salta', 'Salta', '4400', '5', '13', 'Ideal para oficina';
-EXEC sp_InsertarDireccion 'Espa馻', '999', 'Casco Hist髍ico', 'San Miguel de Tucum醤', 'Tucum醤', '4000', '8', '18', 'Edificio moderno';
+EXEC sp_InsertarDireccion 'Av. Col贸n', '321', 'Centro', 'Salta', 'Salta', '4400', '5', '13', 'Ideal para oficina';
+EXEC sp_InsertarDireccion 'Espa帽a', '999', 'Casco Hist贸rico', 'San Miguel de Tucum谩n', 'Tucum谩n', '4000', '8', '18', 'Edificio moderno';
 EXEC sp_InsertarDireccion 'Uruguay', '654', 'Microcentro', 'CABA', 'Buenos Aires', '1015', '9', '21', 'Apto profesional';
 EXEC sp_InsertarDireccion 'Brasil', '111', 'Zona Sur', 'Posadas', 'Misiones', '3300', '2', '4', 'Zona centrica';
 
 ------ propietario ---------
 
-EXEC sp_InsertarPropietario 'Juan', 'P閞ez', '1156781234', '2023-01-10', '1980-06-15', 1, '20-12345678-9';
-EXEC sp_InsertarPropietario 'Mar韆', 'Gonz醠ez', '1167892345', '2023-01-15', '1985-08-20', 1, '27-23456789-0';
-EXEC sp_InsertarPropietario 'Carlos', 'L髉ez', '1178903456', '2023-02-01', '1975-02-10', 1, '23-34567890-1';
-EXEC sp_InsertarPropietario 'Laura', 'Mart韓ez', '1189014567', '2023-02-10', '1990-12-01', 1, '26-45678901-2';
-EXEC sp_InsertarPropietario 'Roberto', 'D韆z', '1190125678', '2023-03-01', '1982-11-22', 1, '20-56789012-3';
-EXEC sp_InsertarPropietario 'Ana', 'S醤chez', '1111236789', '2023-03-15', '1978-09-05', 1, '27-67890123-4';
-EXEC sp_InsertarPropietario 'Jorge', 'Ram韗ez', '1122347890', '2023-04-01', '1983-03-03', 1, '23-78901234-5';
-EXEC sp_InsertarPropietario 'Luc韆', 'Fern醤dez', '1133458901', '2023-04-20', '1991-07-19', 1, '26-89012345-6';
+EXEC sp_InsertarPropietario 'Juan', 'P茅rez', '1156781234', '2023-01-10', '1980-06-15', 1, '20-12345678-9';
+EXEC sp_InsertarPropietario 'Mar铆a', 'Gonz谩lez', '1167892345', '2023-01-15', '1985-08-20', 1, '27-23456789-0';
+EXEC sp_InsertarPropietario 'Carlos', 'L贸pez', '1178903456', '2023-02-01', '1975-02-10', 1, '23-34567890-1';
+EXEC sp_InsertarPropietario 'Laura', 'Mart铆nez', '1189014567', '2023-02-10', '1990-12-01', 1, '26-45678901-2';
+EXEC sp_InsertarPropietario 'Roberto', 'D铆az', '1190125678', '2023-03-01', '1982-11-22', 1, '20-56789012-3';
+EXEC sp_InsertarPropietario 'Ana', 'S谩nchez', '1111236789', '2023-03-15', '1978-09-05', 1, '27-67890123-4';
+EXEC sp_InsertarPropietario 'Jorge', 'Ram铆rez', '1122347890', '2023-04-01', '1983-03-03', 1, '23-78901234-5';
+EXEC sp_InsertarPropietario 'Luc铆a', 'Fern谩ndez', '1133458901', '2023-04-20', '1991-07-19', 1, '26-89012345-6';
 EXEC sp_InsertarPropietario 'Diego', 'Herrera', '1144569012', '2023-05-01', '1989-10-10', 1, '20-90123456-7';
 EXEC sp_InsertarPropietario 'Valeria', 'Torres', '1155670123', '2023-05-20', '1987-04-08', 1, '27-01234567-8';
-EXEC sp_InsertarPropietario 'Mart韓', 'G髆ez', '1166781234', '2023-06-01', '1981-06-21', 1, '23-12345678-9';
+EXEC sp_InsertarPropietario 'Mart铆n', 'G贸mez', '1166781234', '2023-06-01', '1981-06-21', 1, '23-12345678-9';
 EXEC sp_InsertarPropietario 'Camila', 'Rojas', '1177892345', '2023-06-15', '1992-02-17', 1, '26-23456789-0';
 EXEC sp_InsertarPropietario 'Facundo', 'Castro', '1188903456', '2023-07-01', '1984-11-12', 1, '20-34567890-1';
 EXEC sp_InsertarPropietario 'Romina', 'Silva', '1199014567', '2023-07-20', '1993-08-09', 1, '27-45678901-2';
-EXEC sp_InsertarPropietario 'Tom醩', 'Vega', '1100125678', '2023-08-01', '1995-05-05', 1, '23-56789012-3';
+EXEC sp_InsertarPropietario 'Tom谩s', 'Vega', '1100125678', '2023-08-01', '1995-05-05', 1, '23-56789012-3';
 
 
 ------ cliente --------
 
-EXEC sp_InsertarCliente '30111222', 'Juan', 'P閞ez', 1, '1985-03-15', '2023-01-01', '1156781234';
-EXEC sp_InsertarCliente '30222333', 'Mar韆', 'Gonz醠ez', 1, '1990-07-22', '2023-01-05', '1167892345';
-EXEC sp_InsertarCliente '30333444', 'Carlos', 'L髉ez', 1, '1978-11-30', '2023-01-10', '1178903456';
-EXEC sp_InsertarCliente '30444555', 'Ana', 'Mart韓ez', 1, '1989-04-10', '2023-01-12', '1189014567';
-EXEC sp_InsertarCliente '30555666', 'Roberto', 'D韆z', 1, '1982-02-01', '2023-01-15', '1190125678';
-EXEC sp_InsertarCliente '30666777', 'Laura', 'S醤chez', 1, '1991-09-18', '2023-01-18', '1111236789';
-EXEC sp_InsertarCliente '30777888', 'Sof韆', 'Guti閞rez', 1, '1995-12-05', '2023-01-22', '1122347890';
+EXEC sp_InsertarCliente '30111222', 'Juan', 'P茅rez', 1, '1985-03-15', '2023-01-01', '1156781234';
+EXEC sp_InsertarCliente '30222333', 'Mar铆a', 'Gonz谩lez', 1, '1990-07-22', '2023-01-05', '1167892345';
+EXEC sp_InsertarCliente '30333444', 'Carlos', 'L贸pez', 1, '1978-11-30', '2023-01-10', '1178903456';
+EXEC sp_InsertarCliente '30444555', 'Ana', 'Mart铆nez', 1, '1989-04-10', '2023-01-12', '1189014567';
+EXEC sp_InsertarCliente '30555666', 'Roberto', 'D铆az', 1, '1982-02-01', '2023-01-15', '1190125678';
+EXEC sp_InsertarCliente '30666777', 'Laura', 'S谩nchez', 1, '1991-09-18', '2023-01-18', '1111236789';
+EXEC sp_InsertarCliente '30777888', 'Sof铆a', 'Guti茅rrez', 1, '1995-12-05', '2023-01-22', '1122347890';
 EXEC sp_InsertarCliente '30888999', 'Luis', 'Romero', 1, '1976-06-23', '2023-01-25', '1133458901';
-EXEC sp_InsertarCliente '30999000', 'Marta', 'Fern醤dez', 1, '1987-05-11', '2023-01-28', '1144569012';
+EXEC sp_InsertarCliente '30999000', 'Marta', 'Fern谩ndez', 1, '1987-05-11', '2023-01-28', '1144569012';
 EXEC sp_InsertarCliente '30100111', 'Jorge', 'Alvarez', 1, '1980-01-20', '2023-02-01', '1155670123';
 EXEC sp_InsertarCliente '31000222', 'Julia', 'Herrera', 1, '1992-03-27', '2023-02-05', '1166781234';
-EXEC sp_InsertarCliente '31111333', 'Diego', 'Rodr韌uez', 1, '1983-10-13', '2023-02-10', '1177892345';
+EXEC sp_InsertarCliente '31111333', 'Diego', 'Rodr铆guez', 1, '1983-10-13', '2023-02-10', '1177892345';
 EXEC sp_InsertarCliente '31222444', 'Patricia', 'Castro', 1, '1990-06-30', '2023-02-15', '1188903456';
 EXEC sp_InsertarCliente '31333555', 'Oscar', 'Ruiz', 1, '1975-11-08', '2023-02-20', '1199014567';
 EXEC sp_InsertarCliente '31444666', 'Carla', 'Morales', 1, '1993-04-15', '2023-02-25', '1100125678';
@@ -1039,37 +1033,37 @@ EXEC sp_InsertarCliente '31444666', 'Carla', 'Morales', 1, '1993-04-15', '2023-0
 
 ------- agente inmobiliario -----------
 
-EXEC sp_InsertarAgente '40111222', 'Ignacio', 'Gim閚ez', '1122334455', '10', '1980-10-10', '2025-01-01', 1;
+EXEC sp_InsertarAgente '40111222', 'Ignacio', 'Gim茅nez', '1122334455', '10', '1980-10-10', '2025-01-01', 1;
 EXEC sp_InsertarAgente '40222333', 'Luciana', 'Prieto', '1133445566', '12', '1985-09-12', '2025-01-05', 1;
-EXEC sp_InsertarAgente '40333444', 'Esteban', 'Su醨ez', '1144556677', '15', '1978-03-25', '2025-01-08', 1;
+EXEC sp_InsertarAgente '40333444', 'Esteban', 'Su谩rez', '1144556677', '15', '1978-03-25', '2025-01-08', 1;
 EXEC sp_InsertarAgente '40444555', 'Pamela', 'Ruiz', '1155667788', '8', '1989-06-30', '2025-01-10', 1;
-EXEC sp_InsertarAgente '40555666', 'Mart韓', 'Vera', '1166778899', '11', '1982-07-19', '2025-01-15', 1;
+EXEC sp_InsertarAgente '40555666', 'Mart铆n', 'Vera', '1166778899', '11', '1982-07-19', '2025-01-15', 1;
 EXEC sp_InsertarAgente '40666777', 'Cecilia', 'Acosta', '1177889900', '14', '1991-05-05', '2025-01-18', 1;
-EXEC sp_InsertarAgente '40777888', 'Fernando', 'C醕eres', '1188990011', '9', '1990-08-08', '2025-01-22', 1;
+EXEC sp_InsertarAgente '40777888', 'Fernando', 'C谩ceres', '1188990011', '9', '1990-08-08', '2025-01-22', 1;
 EXEC sp_InsertarAgente '40888999', 'Soledad', 'Ibarra', '1199001122', '13', '1984-11-15', '2025-01-25', 1;
 EXEC sp_InsertarAgente '40999000', 'Federico', 'Moyano', '1100112233', '10', '1987-12-12', '2025-01-28', 1;
 EXEC sp_InsertarAgente '41000111', 'Paula', 'Rivera', '1111223344', '7', '1993-03-03', '2025-02-01', 1;
 EXEC sp_InsertarAgente '41111222', 'Santiago', 'Delgado', '1122334455', '10', '1995-01-01', '2025-02-05', 1;
 EXEC sp_InsertarAgente '41222333', 'Agustina', 'Peralta', '1133445566', '12', '1990-06-10', '2025-02-10', 1;
-EXEC sp_InsertarAgente '41333444', 'Tom醩', 'Herrera', '1144556677', '11', '1988-09-30', '2025-02-15', 1;
+EXEC sp_InsertarAgente '41333444', 'Tom谩s', 'Herrera', '1144556677', '11', '1988-09-30', '2025-02-15', 1;
 EXEC sp_InsertarAgente '41444555', 'Camila', 'Sosa', '1155667788', '9', '1986-04-04', '2025-02-20', 1;
-EXEC sp_InsertarAgente '41555666', 'Andr閟', 'Moreno', '1166778899', '13', '1981-07-07', '2025-02-25', 1;
+EXEC sp_InsertarAgente '41555666', 'Andr茅s', 'Moreno', '1166778899', '13', '1981-07-07', '2025-02-25', 1;
 
 ------- propiedad ---------
 
-EXEC sp_InsertarPropiedad 'Casa familiar en zona c閚trica', 1, 550000, 150, 5, '2010-05-10', 'Casa', 1;
-EXEC sp_InsertarPropiedad 'PH c髆odo con patio', 2, 320000, 90, 3, '2015-08-23', 'PH', 2;
+EXEC sp_InsertarPropiedad 'Casa familiar en zona c茅ntrica', 1, 550000, 150, 5, '2010-05-10', 'Casa', 1;
+EXEC sp_InsertarPropiedad 'PH c贸modo con patio', 2, 320000, 90, 3, '2015-08-23', 'PH', 2;
 EXEC sp_InsertarPropiedad 'Departamento moderno', 3, 400000, 70, 3, '2018-11-11', 'Departamento', 3;
-EXEC sp_InsertarPropiedad 'Casa antigua con jard韓', 4, 600000, 200, 6, '2005-03-14', 'Casa', 4;
-EXEC sp_InsertarPropiedad 'Departamento c閚trico', 5, 350000, 80, 3, '2017-07-09', 'Departamento', 5;
-EXEC sp_InsertarPropiedad 'PH con buena iluminaci髇', 6, 280000, 85, 3, '2016-04-02', 'PH', 6;
+EXEC sp_InsertarPropiedad 'Casa antigua con jard铆n', 4, 600000, 200, 6, '2005-03-14', 'Casa', 4;
+EXEC sp_InsertarPropiedad 'Departamento c茅ntrico', 5, 350000, 80, 3, '2017-07-09', 'Departamento', 5;
+EXEC sp_InsertarPropiedad 'PH con buena iluminaci贸n', 6, 280000, 85, 3, '2016-04-02', 'PH', 6;
 EXEC sp_InsertarPropiedad 'Casa con piscina', 7, 750000, 180, 7, '2012-12-30', 'Casa', 7;
-EXEC sp_InsertarPropiedad 'Departamento con balc髇', 8, 380000, 75, 3, '2019-01-15', 'Departamento', 8;
+EXEC sp_InsertarPropiedad 'Departamento con balc贸n', 8, 380000, 75, 3, '2019-01-15', 'Departamento', 8;
 EXEC sp_InsertarPropiedad 'PH renovado', 9, 290000, 88, 3, '2014-06-20', 'PH', 9;
 EXEC sp_InsertarPropiedad 'Casa en barrio residencial', 10, 620000, 170, 6, '2011-09-17', 'Casa', 10;
 EXEC sp_InsertarPropiedad 'Departamento nuevo', 11, 450000, 78, 3, '2020-02-27', 'Departamento', 11;
 EXEC sp_InsertarPropiedad 'PH con patio amplio', 12, 310000, 95, 3, '2013-10-05', 'PH', 12;
-EXEC sp_InsertarPropiedad 'Casa cl醩ica con garage', 13, 580000, 160, 5, '2009-08-29', 'Casa', 13;
+EXEC sp_InsertarPropiedad 'Casa cl谩sica con garage', 13, 580000, 160, 5, '2009-08-29', 'Casa', 13;
 EXEC sp_InsertarPropiedad 'Departamento con vista', 14, 420000, 72, 3, '2018-05-12', 'Departamento', 14;
 EXEC sp_InsertarPropiedad 'PH acogedor', 15, 300000, 90, 3, '2015-11-18', 'PH', 15;
 
@@ -1080,10 +1074,10 @@ EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 550000, '2025-06-10'
 EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 320000, '2025-06-12', 'Transferencia', 2, 2, 2;
 EXEC sp_InsertarContrato 'Se acepta mascota', 400000, '2025-06-14', 'Transferencia', 3, 3, 3;
 EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 600000, '2025-06-15', 'Transferencia', 4, 4, 4;
-EXEC sp_InsertarContrato 'Se aceptan mascotas peque馻s', 350000, '2025-06-15', 'Transferencia', 5, 5, 5;
+EXEC sp_InsertarContrato 'Se aceptan mascotas peque帽as', 350000, '2025-06-15', 'Transferencia', 5, 5, 5;
 EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 280000, '2025-06-14', 'Transferencia', 6, 6, 6;
 EXEC sp_InsertarContrato 'Incluye mobiliario', 750000, '2025-06-16', 'Transferencia', 7, 7, 7;
-EXEC sp_InsertarContrato 'Entrega a 30 d韆s', 380000, '2025-06-21', 'Transferencia', 8, 8, 8;
+EXEC sp_InsertarContrato 'Entrega a 30 d铆as', 380000, '2025-06-21', 'Transferencia', 8, 8, 8;
 EXEC sp_InsertarContrato 'Se acepta mascota', 290000, '2025-06-21', 'Transferencia', 9, 9, 9;
 EXEC sp_InsertarContrato 'Entrega inmediata, sin reformas', 620000, '2025-06-24', 'Transferencia', 10, 10, 10;
 EXEC sp_InsertarContrato 'Se acepta mascota', 450000, '2025-06-26', 'Transferencia', 11, 11, 11;
@@ -1095,14 +1089,14 @@ EXEC sp_InsertarContrato 'Sin mascotas', 300000, '2025-06-01', 'Transferencia', 
 
 ------- visita -----------
 
-EXEC sp_InsertarVisita '2025-06-01', 'Cliente interesado, pedir m醩 fotos', 1, 1;
+EXEC sp_InsertarVisita '2025-06-01', 'Cliente interesado, pedir m谩s fotos', 1, 1;
 EXEC sp_InsertarVisita '2025-06-03', 'Visita con posibilidad de oferta', 1, 2;
 EXEC sp_InsertarVisita '2025-06-05', 'Cliente quiere visitar en la tarde', 1, 3;
 EXEC sp_InsertarVisita '2025-06-07', 'CLiente interesado', 1, 4;
 EXEC sp_InsertarVisita '2025-06-10', 'Cliente quiere saber sobre gastos comunes', 1, 5;
 EXEC sp_InsertarVisita '2025-06-12', 'Cliente interesado', 1, 6;
 EXEC sp_InsertarVisita '2025-06-15', 'Visita con familia numerosa', 1, 7;
-EXEC sp_InsertarVisita '2025-06-18', 'Interesados en financiaci髇', 1, 8;
+EXEC sp_InsertarVisita '2025-06-18', 'Interesados en financiaci贸n', 1, 8;
 EXEC sp_InsertarVisita '2025-06-20', 'Visita programada para la tarde', 1, 9;
 EXEC sp_InsertarVisita '2025-06-22', 'Cliente quiere comparar con otra propiedad', 1, 10;
 EXEC sp_InsertarVisita '2025-06-25', 'Visita con agente de confianza', 1, 11;
