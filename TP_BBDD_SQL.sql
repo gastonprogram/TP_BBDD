@@ -1133,7 +1133,7 @@ WHERE Valor_usd > 500000;
 GO
 
 
-			---Ejecuto---
+---Ejecuto---
 
 SELECT ID_propiedad,
     Descripcion,
@@ -1180,7 +1180,7 @@ FROM VISTA_PROPIEDADES_MENORES_250000;
 GO
 
 
----- vista de informacion relevante de una propiedad
+---- vista de informacion relevante de una propiedad -----
 CREATE VIEW vw_PropiedadesDetalladas AS
 SELECT 
     p.ID_propiedad,
@@ -1214,7 +1214,7 @@ GO
 
 
 
------ vista de contratos completos
+----- vista de contratos completos ----
 CREATE VIEW vw_ContratosCompletos AS
 SELECT 
     c.ID_contrato,
@@ -1256,7 +1256,7 @@ SELECT
 FROM VISITA v
 JOIN PROPIEDAD p ON v.ID_propiedad = p.ID_propiedad
 JOIN DIRECCION d ON p.ID_direccion = d.ID_direccion
-WHERE v.Estado = 0; -- seleccionar solo las que esten pendientes (estado = 0)
+WHERE v.Estado = 0; -- pendientes = 0
 GO
 
 
