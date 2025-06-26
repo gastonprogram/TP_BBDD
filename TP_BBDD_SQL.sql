@@ -1278,34 +1278,32 @@ EXEC sp_TiempoPromedioVisitaContrato;
 
 SELECT * FROM PROPIEDADES WHERE Fecha_contruccion>'2020-01-01';
 
-SELECT Nombre, Apellido COUNT (ID_PROPIETARIO) AS Cantidad_propiedades FROM PROPIETARIOS GROUP BY Nombre, Apellido;
+SELECT Nombre, Apellido, COUNT(ID_propietario) AS Cantidad_propiedades FROM PROPIETARIO GROUP BY Nombre, Apellido;
 
 SELECT Nombre,Apellido FROM CLIENTE WHERE Nombre LIKE 'L%' or Apellido LIKE '%o';
 
 SELECT ID_cliente, Nombre, Apellido FROM CLIENTE WHERE Telefono IS NULL;
 
-SELECT  * FROM PROPIEDADES WHERE Fecha_contruccion<'2019-31-12';
 
-SELECT * FROM VISITAS WHERE Fecha_visita >= DATEADD(DAY, -7, GETDATE());
+SELECT ID_visita, Comentarios, Estado, ID_propiedad FROM VISITA WHERE Fecha_visita >= DATEADD(DAY, -7, GETDATE());
 
 SELECT ID_CLIENTE, Nombre, Apellido, Fecha_registro FROM CLIENTE WHERE Fecha_registro >= DATEADD(MONTH, -1, GETDATE());
 
-SELECT ID_agente, Nombre, Apellido, Comision FROM AGENTE_INMOBILIARIOS WHERE Estado = 1 AND Comision IS NOT NULL;
+SELECT ID_agente, Nombre, Apellido, Comision FROM AGENTE_INMOBILIARIO WHERE Estado = 1 AND Comision IS NOT NULL;
 
 SELECT ID_propietario, Nombre, Apellido, Cuit FROM PROPIETARIOS WHERE Cuit IS NOT NULL AND Estado = 1;
 
-SELECT ID_CLIENTE, Nombre, Apellido FROM CLIENTE WHERE Telefono IS NULL OR Telefono = '';
-
-SELECT ID_pago, Fecha_pago, Monto, Metodo_pago FROM PAGOS WHERE Estado_pago = 0;
+SELECT ID_pago, Fecha_pago, Monto, Metodo_pago FROM PAGO WHERE Estado_pago = 0;
 
 SELECT 
-    D.Barrio AS Barrio_o_Zona,
-    COUNT(P.ID_contrato) AS Cantidad_Contratos
-FROM PROPIEDADES P
+    D.Barrio AS Barrio,
+    COUNT(C.ID_contrato) AS Cantidad_Contratos
+FROM CONTRATO C
+INNER JOIN PROPIEDAD P ON C.ID_propiedad = P.ID_propiedad
 INNER JOIN DIRECCION D ON P.ID_direccion = D.ID_direccion
-WHERE P.ID_contrato IS NOT NULL
 GROUP BY D.Barrio
 ORDER BY Cantidad_Contratos DESC;
+
 
 
 ---TRIGGERS---------------------------------------------------------------------------------------------------------------------------------
